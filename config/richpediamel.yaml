@@ -1,0 +1,56 @@
+run_name: RichpediaMEL
+seed: 43
+pretrained_model: 'openai/clip-vit-base-patch32'
+lr: 1e-5
+
+
+data:
+  root: xxx
+  num_entity: 160933
+
+  kb_img_folder: ${data.root}/RichpediaMEL/kb_image
+  mention_img_folder: ${data.root}/RichpediaMEL/mention_image
+  qid2id: ${data.root}/RichpediaMEL/qid2id.json
+  entity: ${data.root}/RichpediaMEL/kb_entity.json
+
+#  train_file: ${data.root}/RichpediaMEL/RichpediaMEL_train_with_boxes.json
+  train_file: ${data.root}/RichpediaMEL/RichpediaMEL_train_with_boxes_sort3_with_neg.json
+#  train_file: ${data.root}/RichpediaMEL/RichpediaMEL_train_with_boxes_sort3.json
+#  train_file: ${data.root}/RichpediaMEL/RichpediaMEL_train_with_boxes_sort5.json
+  dev_file: ${data.root}/RichpediaMEL/RichpediaMEL_dev_with_boxes.json
+  test_file: ${data.root}/RichpediaMEL/RichpediaMEL_test_with_boxes.json
+
+#  entity: ${data.root}/RichpediaMEL/kb_entity_dme.json
+##  train_file: ${data.root}/RichpediaMEL/RichpediaMEL_train_dme.json
+#  train_file: ${data.root}/RichpediaMEL/RichpediaMEL_train_with_boxes.json
+#  dev_file: ${data.root}/RichpediaMEL/RichpediaMEL_dev_dme.json
+#  test_file: ${data.root}/RichpediaMEL/RichpediaMEL_test_dme.json
+
+
+
+  cluster_size: 0
+  neg_k: 10
+  batch_size: 64
+  num_workers: 8
+  text_max_length: 40
+
+  eval_chunk_size: 6000
+  eval_batch_size: 20
+  embed_update_batch_size: 512
+
+
+model:
+  input_hidden_dim: 512
+  input_image_hidden_dim: 768
+  TGLU_hidden_dim: 96
+  IDLU_hidden_dim: 96
+  CMFU_hidden_dim: 96
+  rho: 0.2
+
+trainer:
+  accelerator: 'gpu'
+  devices: [0]
+  max_epochs: 20
+  num_sanity_val_steps: 0
+  check_val_every_n_epoch: 2
+  log_every_n_steps: 30
